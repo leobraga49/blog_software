@@ -1,47 +1,44 @@
 package com.blog.service;
 
 import com.blog.model.Post;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.blog.repository.PostRepository;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostService {
 
-    private static final String POSTS_FILE = "posts.json";
-    private final ObjectMapper objectMapper;
+    private final PostRepository postRepository;
 
-    public PostService() {
-        this.objectMapper = new ObjectMapper();
+    public PostService(PostRepository postRepository) {
+        this.postRepository = postRepository;
     }
 
     public List<Post> getAllPosts() {
-        if (new File(POSTS_FILE).exists()) {
-            try (FileReader reader = new FileReader(POSTS_FILE)) {
-                return objectMapper.readValue(reader, new TypeReference<List<Post>>() {});
-            } catch (IOException e) {
-                e.printStackTrace();
-                return new ArrayList<>();
-            }
-        } else {
-            return new ArrayList<>();
-        }
+        return postRepository.findAll();
     }
 
     public void savePost(Post post) {
-        List<Post> posts = getAllPosts();
-        posts.add(post);
-        try (FileWriter writer = new FileWriter(POSTS_FILE)) {
-            objectMapper.writeValue(writer, posts);
-        } catch (IOException e) {
-            e.printStackTrace();
+        postRepository.save(post);
+    }
+
+    public Post getPostById(Long id) {
+        Optional<Post> post = postRepository.findById(id);
+        return post.orElse(null);
+    }
+
+    public void updatePost(Long id, String title, String summary, String content, LocalDateTime publishDate) {
+        Optional<Post> optionalPost = postRepository.findById(id);
+        if (optionalPost.isPresent()) {
+            Post post = optionalPost.get();
+            post.setTitle(title);
+            post.setSummary(summary);
+            post.setContent(content);
+            post.setPublishedDate(publishDate);
+            postRepository.save(post);
         }
     }
 }
