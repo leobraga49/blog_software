@@ -6,8 +6,8 @@
 <body>
 <h1>All Blog Posts</h1>
 <ul>
-    <li th:each="post, iterStat : ${posts}">
-        <a th:href="@{/posts/{id}(id=${iterStat.index})}" th:text="${post.title}">Post Title</a>
+    <li th:each="post : ${posts}">
+        <a th:href="@{/posts/{id}(id=${post.id})}" th:text="${post.title}">Post Title</a>
     </li>
 </ul>
 <a href="/editor">Create New Post</a>
