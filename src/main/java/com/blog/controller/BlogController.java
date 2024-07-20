@@ -63,9 +63,8 @@ public class BlogController {
     public String updatePost(@PathVariable Long id,
                              @RequestParam String title,
                              @RequestParam String summary,
-                             @RequestParam String content,
-                             @RequestParam String publishDate) {
-        LocalDateTime publishDateTime = LocalDateTime.parse(publishDate);
+                             @RequestParam String content) {
+        LocalDateTime publishDateTime = LocalDateTime.now();
         postService.updatePost(id, title, summary, content, publishDateTime);
         return "redirect:/posts/" + id;
     }
