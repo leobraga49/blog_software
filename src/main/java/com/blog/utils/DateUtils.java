@@ -1,4 +1,4 @@
-package com.blog.Utils;
+package com.blog.utils;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;

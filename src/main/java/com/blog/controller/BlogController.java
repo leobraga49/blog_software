@@ -1,7 +1,7 @@
 package com.blog.controller;
 
 import com.blog.dto.PostDTO;
-import com.blog.Utils.DateUtils;
+import com.blog.utils.DateUtils;
 import com.blog.model.Post;
 import com.blog.service.PostService;
 import org.springframework.stereotype.Controller;
