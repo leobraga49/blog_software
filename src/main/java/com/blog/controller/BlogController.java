@@ -68,4 +68,10 @@ public class BlogController {
         postService.updatePost(id, title, summary, content, publishDateTime);
         return "redirect:/posts/" + id;
     }
+
+    @PostMapping("/editor/delete/{id}")
+    public String deletePost(@PathVariable Long id) {
+        postService.deletePost(id);
+        return "redirect:/index";
+    }
 }
