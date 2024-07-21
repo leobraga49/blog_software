@@ -12,7 +12,7 @@
     <h1 class="text-4xl font-bold mb-4 text-blue-600">All Blog Posts</h1>
     <ul class="space-y-4">
         <li th:each="post : ${posts}" class="border-b border-gray-200 pb-4">
-            <a th:href="@{/posts/{id}(id=${post.id})}" class="text-xl font-semibold text-blue-600 hover:underline" th:text="${post.title}">Post Title</a>
+            <a th:href="@{/posts/{id}(id=${post.id})}" class="text-xl font-semibold text-blue-600 hover:underline" th:text="${post.tittle}">Post Title</a>
             <p th:text="${post.summary}" class="text-gray-600 mt-2">Post Summary</p>
             <div class="flex items-center text-gray-500 mt-2 text-xs mr-1">
                 <span class="mx-1">0 Comments</span>
