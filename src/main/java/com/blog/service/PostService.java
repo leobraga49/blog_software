@@ -18,7 +18,7 @@ public class PostService {
     }
 
     public List<Post> getAllPosts() {
-        return postRepository.findAll();
+        return postRepository.findAllByOrderByPublishedDateDesc();
     }
 
     public void savePost(Post post) {
