@@ -1,5 +1,7 @@
 package com.blog.controller;
 
+import com.blog.dto.PostDTO;
+import com.blog.Utils.DateUtils;
 import com.blog.model.Post;
 import com.blog.service.PostService;
 import org.springframework.stereotype.Controller;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class BlogController {
@@ -21,7 +24,17 @@ public class BlogController {
     @GetMapping("/index")
     public String home(Model model) {
         List<Post> posts = postService.getAllPosts();
-        model.addAttribute("posts", posts);
+        List<PostDTO> postDTOs = posts.stream().map(post -> {
+            var dto = new PostDTO();
+            dto.setId(post.getId());
+            dto.setTittle(post.getTitle());
+            dto.setSummary(post.getSummary());
+            dto.setContent(post.getContent());
+            dto.setFormattedPublishedDate(DateUtils.formatPublishedDate(post.getPublishedDate()));
+            return dto;
+        }).collect(Collectors.toList());
+
+        model.addAttribute("posts", postDTOs);
         return "index";
     }
 
