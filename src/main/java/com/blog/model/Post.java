@@ -2,12 +2,13 @@ package com.blog.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "posts")
 public class Post {
+
     @JsonProperty("id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +21,16 @@ public class Post {
     private String content;
 
     private LocalDateTime publishedDate;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User author;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Commentary> commentaries;
+
+    public Post() {
+    }
 
     public Post(String title, String summary, String content, LocalDateTime publishedDate) {
         this.title = title;
@@ -34,17 +45,6 @@ public class Post {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Post() {
-    }
-
-    public LocalDateTime getPublishedDate() {
-        return publishedDate;
-    }
-
-    public void setPublishedDate(LocalDateTime publishedDate) {
-        this.publishedDate = publishedDate;
     }
 
     public String getTitle() {
@@ -69,5 +69,29 @@ public class Post {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public LocalDateTime getPublishedDate() {
+        return publishedDate;
+    }
+
+    public void setPublishedDate(LocalDateTime publishedDate) {
+        this.publishedDate = publishedDate;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public List<Commentary> getCommentaries() {
+        return commentaries;
+    }
+
+    public void setCommentaries(List<Commentary> commentaries) {
+        this.commentaries = commentaries;
     }
 }
