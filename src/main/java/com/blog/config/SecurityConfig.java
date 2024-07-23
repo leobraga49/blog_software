@@ -25,7 +25,7 @@ public class SecurityConfig {
                 )
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
-                        .defaultSuccessUrl("/editor", true)
+                        .defaultSuccessUrl("/index", true)
                         .permitAll()
                 )
                 .logout(LogoutConfigurer::permitAll);
