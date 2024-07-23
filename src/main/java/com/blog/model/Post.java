@@ -12,13 +12,13 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @JsonProperty("title")
+
     private String title;
-    @JsonProperty("summary")
+
     private String summary;
-    @JsonProperty("content")
+
     private String content;
-    @JsonProperty("publishedDate")
+
     private LocalDateTime publishedDate;
 
     public Post(String title, String summary, String content, LocalDateTime publishedDate) {
