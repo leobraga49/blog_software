@@ -22,10 +22,6 @@ public class Post {
 
     private LocalDateTime publishedDate;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User author;
-
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Commentary> commentaries;
 
@@ -77,14 +73,6 @@ public class Post {
 
     public void setPublishedDate(LocalDateTime publishedDate) {
         this.publishedDate = publishedDate;
-    }
-
-    public User getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(User author) {
-        this.author = author;
     }
 
     public List<Commentary> getCommentaries() {
