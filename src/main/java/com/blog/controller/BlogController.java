@@ -1,6 +1,8 @@
 package com.blog.controller;
 
+import com.blog.dto.CommentaryDTO;
 import com.blog.dto.PostDTO;
+import com.blog.service.CommentaryService;
 import com.blog.utils.DateUtils;
 import com.blog.model.Post;
 import com.blog.service.PostService;
@@ -16,15 +18,18 @@ import java.util.stream.Collectors;
 public class BlogController {
 
     private final PostService postService;
+    private final CommentaryService commentaryService;
 
-    public BlogController(PostService postService) {
+    public BlogController(PostService postService, CommentaryService commentaryService) {
         this.postService = postService;
+        this.commentaryService = commentaryService;
     }
 
     @GetMapping("/index")
     public String home(Model model) {
         List<Post> posts = postService.getAllPosts();
-        List<PostDTO> postDTOs = posts.stream().map(post -> {
+        List<PostDTO> postDTOs = posts.stream()
+                .map(post -> {
             var dto = new PostDTO();
             dto.setId(post.getId());
             dto.setTittle(post.getTitle());
@@ -33,7 +38,6 @@ public class BlogController {
             dto.setFormattedPublishedDate(DateUtils.formatPublishedDate(post.getPublishedDate()));
             return dto;
         }).collect(Collectors.toList());
-
         model.addAttribute("posts", postDTOs);
         return "index";
     }
@@ -58,7 +62,9 @@ public class BlogController {
         if (post == null) {
             return "404";
         }
+        List<CommentaryDTO> commentaries = commentaryService.sortCommentariesByDate(post);
         model.addAttribute("post", post);
+        model.addAttribute("commentaries", commentaries);
         return "post";
     }
 
